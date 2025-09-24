@@ -30,7 +30,7 @@ def load_data(file_path: str) -> pd.DataFrame:
     """
     try:
         data = pd.read_csv(file_path)
-        logger.info(f"Data loaded successfully from {file_path}")
+        logger.debug(f"Data loaded successfully from {file_path}")
         return data
     except Exception as e:
         logger.error(f"Error loading data from {file_path}: {e}")
@@ -49,8 +49,8 @@ def preprocess_data(df: pd.DataFrame, target_column: str) -> (pd.DataFrame, pd.S
     try:
         df = df.dropna()
         df = pd.get_dummies(df, columns=['region'], drop_first=True)
-        
-        logger.info("Data preprocessing completed successfully")
+
+        logger.debug("Data preprocessing completed successfully")
         return df
     except Exception as e:
         logger.error(f"Error in data preprocessing: {e}")
@@ -70,8 +70,8 @@ def save_data(train_df: pd.DataFrame, test_df: pd.DataFrame, train_path: str, te
         os.makedirs(os.path.dirname(test_path), exist_ok=True)
         train_df.to_csv(train_path, index=False)
         test_df.to_csv(test_path, index=False)
-        logger.info(f"Training data saved to {train_path}")
-        logger.info(f"Testing data saved to {test_path}")
+        logger.debug(f"Training data saved to {train_path}")
+        logger.debug(f"Testing data saved to {test_path}")
     except Exception as e:
         logger.error(f"Error saving data: {e}")
         raise
@@ -89,7 +89,7 @@ def main():
         # Save processed data
         save_data(train_df, test_df, 'data/processed/train.csv', 'data/processed/test.csv')
         
-        logger.info("Data ingestion process completed successfully")
+        logger.debug("Data ingestion process completed successfully")
     except Exception as e:
         logger.error(f"Data ingestion process failed: {e}")
 

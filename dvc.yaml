@@ -1,0 +1,36 @@
+stages:
+  data_ingestion:
+    cmd: python src/data_ingestion.py
+    deps:
+      - src/data_ingestion.py
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+
+  data_processing:
+    cmd: python src/data_processing.py
+    deps:
+      - src/data_processing.py
+      - data/processed/train.csv
+      - data/processed/test.csv
+    outs:
+      - data/transform/train.csv
+      - data/transform/test.csv
+
+  model_training:
+    cmd: python src/model_training.py
+    deps:
+      - src/model_training.py
+      - data/transform/train.csv
+      - data/transform/test.csv
+    outs:
+      - models/random_forest_model.pkl
+
+  model_evaluation:
+    cmd: python src/model_evaluation.py
+    deps:
+      - src/model_evaluation.py
+      - models/random_forest_model.pkl
+      - data/transform/test.csv
+    outs:
+      - reports/evaluation/metrics.txt
